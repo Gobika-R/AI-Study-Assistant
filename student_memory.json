@@ -1,0 +1,98 @@
+{
+  "385976be-5b0a-4120-933d-ce265acc9200": {
+    "interactions": [
+      {
+        "timestamp": "2025-07-26T21:32:45.046072",
+        "type": "explanation",
+        "content": "Explained what is HTML at simple level",
+        "topic": "what is HTML"
+      },
+      {
+        "timestamp": "2025-07-26T21:33:15.640271",
+        "type": "explanation",
+        "content": "Explained what is gravity at simple level",
+        "topic": "what is gravity"
+      },
+      {
+        "timestamp": "2025-07-26T21:33:24.526045",
+        "type": "explanation",
+        "content": "Explained what is gravity at advanced level",
+        "topic": "what is gravity"
+      },
+      {
+        "timestamp": "2025-07-26T21:34:56.029480",
+        "type": "summarization",
+        "content": "Summarized text: Gravity is one of the fundamental forces of nature, an invisible yet profoundly powerful phenomenon ...",
+        "topic": "text_summarization"
+      },
+      {
+        "timestamp": "2025-07-26T21:35:40.631647",
+        "type": "quiz_generation",
+        "content": "Generated quiz for gravity with 5 questions",
+        "topic": "gravity"
+      },
+      {
+        "timestamp": "2025-07-26T21:35:51.812828",
+        "type": "quiz_answer",
+        "content": "Answered question 0: correct",
+        "topic": "gravity"
+      },
+      {
+        "timestamp": "2025-07-26T21:35:58.244714",
+        "type": "quiz_answer",
+        "content": "Answered question 1: correct",
+        "topic": "gravity"
+      },
+      {
+        "timestamp": "2025-07-26T21:47:53.019748",
+        "type": "summarization",
+        "content": "Summarized text: Gravity is one of the fundamental forces of nature, an invisible yet profoundly powerful phenomenon ...",
+        "topic": "text_summarization"
+      },
+      {
+        "timestamp": "2025-07-26T21:48:19.705659",
+        "type": "explanation",
+        "content": "Explained democracy at intermediate level",
+        "topic": "democracy"
+      },
+      {
+        "timestamp": "2025-07-26T21:48:34.736287",
+        "type": "quiz_generation",
+        "content": "Generated quiz for gravity with 3 questions",
+        "topic": "gravity"
+      },
+      {
+        "timestamp": "2025-07-26T21:48:40.754398",
+        "type": "quiz_answer",
+        "content": "Answered question 0: incorrect",
+        "topic": "gravity"
+      },
+      {
+        "timestamp": "2025-07-26T21:48:48.256468",
+        "type": "quiz_answer",
+        "content": "Answered question 1: correct",
+        "topic": "gravity"
+      },
+      {
+        "timestamp": "2025-07-26T21:48:56.998733",
+        "type": "quiz_answer",
+        "content": "Answered question 2: incorrect",
+        "topic": "gravity"
+      }
+    ],
+    "topics_studied": {
+      "what is HTML": 1,
+      "what is gravity": 2,
+      "text_summarization": 2,
+      "gravity": 7,
+      "democracy": 1
+    },
+    "quiz_performance": {
+      "gravity": {
+        "correct": 3,
+        "total": 5
+      }
+    },
+    "preferences": {}
+  }
+}

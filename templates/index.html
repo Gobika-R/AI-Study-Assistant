@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Assistant - Your AI Learning Companion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #ffecd2;
+            --danger-color: #ff8a80;
+            --dark-color: #2d3748;
+            --light-color: #f7fafc;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .main-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px var(--shadow-color);
+            margin: 30px auto;
+            max-width: 1400px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 8s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+            animation: iconPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border: none;
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-outline-primary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--primary-color);
+            position: relative;
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 1.2rem;
+            margin: 0.8rem 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .quiz-option:hover::before {
+            left: 100%;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateX(10px);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary-color);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(240, 147, 251, 0.2));
+            transform: scale(1.02);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success-color);
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.2), rgba(0, 242, 96, 0.2));
+            animation: correctPulse 1s ease-in-out;
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--danger-color);
+            background: linear-gradient(135deg, rgba(255, 138, 128, 0.2), rgba(255, 0, 0, 0.1));
+            animation: incorrectShake 0.5s ease-in-out;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            margin-top: 1rem;
+        }
+
+        .spinner {
+            border: 4px solid rgba(102, 126, 234, 0.2);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .memory-badge {
+            background: linear-gradient(135deg, var(--success-color), var(--accent-color));
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+            margin: 0.2rem;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .memory-badge:hover {
+            transform: translateY(-2px);
+        }
+
+        .readability-score {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin: 0.3rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .readability-score:hover {
+            transform: translateY(-2px);
+        }
+
+        .readability-easy { 
+            background: linear-gradient(135deg, #4facfe, #00f2fe); 
+            color: white; 
+        }
+        .readability-medium { 
+            background: linear-gradient(135deg, #ffecd2, #fcb69f); 
+            color: #8b5cf6; 
+        }
+        .readability-hard { 
+            background: linear-gradient(135deg, #ff8a80, #ea4335); 
+            color: white; 
+        }
+
+        .tab-content {
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .nav-tabs {
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px 20px 0 0;
+            padding: 1rem 1rem 0;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            border-radius: 15px;
+            color: var(--dark-color);
+            font-weight: 700;
+            margin-right: 0.5rem;
+            padding: 1rem 1.5rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-tabs .nav-link:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <div class="header">
+                <h1><i class="fas fa-graduation-cap"></i> Study Assistant</h1>
+                <p class="lead mb-0">Your AI-powered learning companion for summarization, explanation, and quizzes</p>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <ul class="nav nav-tabs mt-0" id="mainTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="summarize-tab" data-bs-toggle="tab" data-bs-target="#summarize" type="button" role="tab">
+                        <i class="fas fa-compress-alt"></i> Summarize
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="explain-tab" data-bs-toggle="tab" data-bs-target="#explain" type="button" role="tab">
+                        <i class="fas fa-lightbulb"></i> Explain
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="quiz-tab" data-bs-toggle="tab" data-bs-target="#quiz" type="button" role="tab">
+                        <i class="fas fa-question-circle"></i> Quiz
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="memory-tab" data-bs-toggle="tab" data-bs-target="#memory" type="button" role="tab">
+                        <i class="fas fa-brain"></i> Memory
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="mainTabContent">
+                <!-- Summarize Tab -->
+                <div class="tab-pane fade show active" id="summarize" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <div class="text-center">
+                                    <i class="fas fa-compress-alt feature-icon"></i>
+                                    <h3>Text Summarization</h3>
+                                    <p class="text-muted">Get concise summaries of your notes and reading materials</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="textInput" class="form-label">Enter your text to summarize:</label>
+                                    <textarea class="form-control" id="textInput" rows="8" placeholder="Paste your notes, articles, or any text here..."></textarea>
+                                </div>
+                                <button class="btn btn-primary w-100" onclick="summarizeText()">
+                                    <i class="fas fa-magic"></i> Summarize Text
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="summaryLoading" class="loading">
+                                <div class="spinner"></div>
+                                <p>Creating your summary...</p>
+                            </div>
+                            <div id="summaryResult"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Explain Tab -->
+                <div class="tab-pane fade" id="explain" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <div class="text-center">
+                                    <i class="fas fa-lightbulb feature-icon"></i>
+                                    <h3>Topic Explanation</h3>
+                                    <p class="text-muted">Get clear explanations of difficult concepts</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="topicInput" class="form-label">What topic would you like me to explain?</label>
+                                    <input type="text" class="form-control" id="topicInput" placeholder="e.g., photosynthesis, gravity, democracy">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="difficultySelect" class="form-label">Difficulty Level:</label>
+                                    <select class="form-control" id="difficultySelect">
+                                        <option value="simple">Simple (Elementary)</option>
+                                        <option value="intermediate">Intermediate (Middle School)</option>
+                                        <option value="advanced">Advanced (High School+)</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary w-100" onclick="explainTopic()">
+                                    <i class="fas fa-brain"></i> Explain Topic
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="explanationLoading" class="loading">
+                                <div class="spinner"></div>
+                                <p>Preparing explanation...</p>
+                            </div>
+                            <div id="explanationResult"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Tab -->
+                <div class="tab-pane fade" id="quiz" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <div class="text-center">
+                                    <i class="fas fa-question-circle feature-icon"></i>
+                                    <h3>Interactive Quiz</h3>
+                                    <p class="text-muted">Test your knowledge with personalized quizzes</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="quizTopicInput" class="form-label">Quiz Topic:</label>
+                                    <input type="text" class="form-control" id="quizTopicInput" placeholder="e.g., photosynthesis, gravity, democracy">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="numQuestions" class="form-label">Number of Questions:</label>
+                                    <select class="form-control" id="numQuestions">
+                                        <option value="3">3 Questions</option>
+                                        <option value="5" selected>5 Questions</option>
+                                        <option value="10">10 Questions</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary w-100" onclick="generateQuiz()">
+                                    <i class="fas fa-play"></i> Start Quiz
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="quizLoading" class="loading">
+                                <div class="spinner"></div>
+                                <p>Generating quiz...</p>
+                            </div>
+                            <div id="quizResult"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Memory Tab -->
+                <div class="tab-pane fade" id="memory" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <div class="text-center">
+                                    <i class="fas fa-brain feature-icon"></i>
+                                    <h3>Learning Memory</h3>
+                                    <p class="text-muted">Track your progress and get personalized recommendations</p>
+                                </div>
+                                <button class="btn btn-primary w-100" onclick="loadMemory()">
+                                    <i class="fas fa-refresh"></i> Refresh Memory
+                                </button>
+                                <hr>
+                                <button class="btn btn-outline-primary w-100" onclick="getRecommendations()">
+                                    <i class="fas fa-star"></i> Get Recommendations
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="memoryLoading" class="loading">
+                                <div class="spinner"></div>
+                                <p>Loading your learning history...</p>
+                            </div>
+                            <div id="memoryResult"></div>
+                            <div id="recommendationsResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentQuiz = null;
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+
+        // Performance monitoring
+        let performanceData = {
+            summarizationTime: 0,
+            explanationTime: 0,
+            quizTime: 0
+        };
+
+        // Summarize Text
+        async function summarizeText() {
+            const text = document.getElementById('textInput').value;
+            if (!text.trim()) {
+                alert('Please enter some text to summarize');
+                return;
+            }
+
+            showLoadingWithProgress('summaryLoading', 'Creating your summary...');
+            hideElement('summaryResult');
+
+            const startTime = performance.now();
+
+            try {
+                const response = await fetch('/summarize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: text })
+                });
+
+                const result = await response.json();
+                hideLoading('summaryLoading');
+
+                const endTime = performance.now();
+                performanceData.summarizationTime = endTime - startTime;
+
+                if (result.error) {
+                    showEnhancedError('summaryResult', result.error);
+                } else {
+                    displaySummaryResult(result);
+                }
+            } catch (error) {
+                hideLoading('summaryLoading');
+                showEnhancedError('summaryResult', 'Failed to summarize text. Please try again.');
+            }
+        }
+
+        function displaySummaryResult(result) {
+            const readabilityClass = getReadabilityClass(result.readability.reading_level);
+            
+            const html = `
+                <div class="result-card">
+                    <h4><i class="fas fa-file-alt"></i> Summary</h4>
+                    <div class="mb-3">
+                        <span class="memory-badge me-2">Confidence: ${Math.round(result.confidence * 100)}%</span>
+                        <span class="memory-badge me-2">Compression: ${result.summary_ratio}%</span>
+                    </div>
+                    <p style="font-size: 1.1rem; line-height: 1.6;">${result.summary}</p>
+                    
+                    <h5><i class="fas fa-list"></i> Key Points</h5>
+                    <ul style="margin-left: 1rem;">
+                        ${result.key_points.map(point => `<li style="margin-bottom: 0.5rem;">${point}</li>`).join('')}
+                    </ul>
+                    
+                    <div class="mt-4">
+                        <h6><i class="fas fa-chart-bar"></i> Text Analysis</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="memory-badge me-2">Words: ${result.word_count}</span>
+                                <span class="memory-badge me-2">Sentences: ${result.sentence_count}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="readability-score ${readabilityClass}">
+                                    ${result.readability.reading_level} (Grade ${result.readability.flesch_kincaid_grade})
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            showElement('summaryResult', html);
+        }
+
+        // Explain Topic
+        async function explainTopic() {
+            const topic = document.getElementById('topicInput').value;
+            const difficulty = document.getElementById('difficultySelect').value;
+            
+            if (!topic.trim()) {
+                alert('Please enter a topic to explain');
+                return;
+            }
+
+            showLoadingWithProgress('explanationLoading', 'Preparing explanation...');
+            hideElement('explanationResult');
+
+            const startTime = performance.now();
+
+            try {
+                const response = await fetch('/explain', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ topic: topic, difficulty: difficulty })
+                });
+
+                const result = await response.json();
+                hideLoading('explanationLoading');
+
+                const endTime = performance.now();
+                performanceData.explanationTime = endTime - startTime;
+
+                if (result.error) {
+                    showEnhancedError('explanationResult', result.error);
+                } else {
+                    displayExplanationResult(result);
+                }
+            } catch (error) {
+                hideLoading('explanationLoading');
+                showEnhancedError('explanationResult', 'Failed to explain topic. Please try again.');
+            }
+        }
+
+        function displayExplanationResult(result) {
+            const html = `
+                <div class="result-card">
+                    <h4><i class="fas fa-lightbulb"></i> ${result.topic}</h4>
+                    <div class="mb-3">
+                        <span class="memory-badge me-2">${result.difficulty_level} Level</span>
+                        <span class="memory-badge me-2">📖 ${result.estimated_reading_time}</span>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h5>Explanation</h5>
+                        <p style="font-size: 1.1rem; line-height: 1.6;">${result.explanation}</p>
+                    </div>
+                    
+                    ${result.key_concepts && result.key_concepts.length > 0 ? `
+                        <div class="mt-3">
+                            <h6><i class="fas fa-key"></i> Key Concepts</h6>
+                            <div>
+                                ${result.key_concepts.map(concept => `<span class="memory-badge me-2 mb-2">${concept}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${result.suggested_activities.length > 0 ? `
+                        <div class="mt-4">
+                            <h6><i class="fas fa-tasks"></i> Suggested Learning Activities</h6>
+                            <ul style="margin-left: 1rem;">
+                                ${result.suggested_activities.map(activity => `<li style="margin-bottom: 0.5rem;">${activity}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+                    
+                    ${result.related_topics.length > 0 ? `
+                        <div class="mt-4">
+                            <h6><i class="fas fa-link"></i> Related Topics to Explore</h6>
+                            <div>
+                                ${result.related_topics.map(topic => `<span class="memory-badge me-2 mb-2" style="cursor: pointer;" onclick="exploreRelatedTopic('${topic}')">${topic}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            showElement('explanationResult', html);
+        }
+        
+        function exploreRelatedTopic(topic) {
+            document.getElementById('topicInput').value = topic;
+            explainTopic();
+        }
+
+        // Generate Quiz
+        async function generateQuiz() {
+            const topic = document.getElementById('quizTopicInput').value;
+            const numQuestions = document.getElementById('numQuestions').value;
+            
+            if (!topic.trim()) {
+                alert('Please enter a topic for the quiz');
+                return;
+            }
+
+            showLoadingWithProgress('quizLoading', 'Generating quiz...');
+            hideElement('quizResult');
+
+            const startTime = performance.now();
+
+            try {
+                const response = await fetch('/quiz', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ topic: topic, num_questions: parseInt(numQuestions) })
+                });
+
+                const result = await response.json();
+                hideLoading('quizLoading');
+
+                const endTime = performance.now();
+                performanceData.quizTime = endTime - startTime;
+
+                if (result.error) {
+                    showEnhancedError('quizResult', result.error);
+                } else {
+                    currentQuiz = result;
+                    currentQuestionIndex = 0;
+                    quizScore = 0;
+                    displayQuizQuestion();
+                }
+            } catch (error) {
+                hideLoading('quizLoading');
+                showEnhancedError('quizResult', 'Failed to generate quiz. Please try again.');
+            }
+        }
+
+        function displayQuizQuestion() {
+            if (!currentQuiz || currentQuestionIndex >= currentQuiz.questions.length) {
+                displayQuizResults();
+                return;
+            }
+
+            const question = currentQuiz.questions[currentQuestionIndex];
+            const difficultyColors = {
+                'easy': 'success',
+                'medium': 'warning', 
+                'hard': 'danger'
+            };
+            const difficultyColor = difficultyColors[question.difficulty] || 'primary';
+            
+            const html = `
+                <div class="result-card">
+                    <h4><i class="fas fa-question-circle"></i> Quiz: ${currentQuiz.topic}</h4>
+                    <div class="mb-3">
+                        <span class="memory-badge">Question ${currentQuestionIndex + 1} of ${currentQuiz.questions.length}</span>
+                        <span class="memory-badge ms-2">Score: ${quizScore}/${currentQuestionIndex}</span>
+                        <span class="badge bg-${difficultyColor} ms-2">${question.difficulty || 'medium'}</span>
+                    </div>
+                    
+                    ${currentQuiz.estimated_time ? `
+                        <div class="mb-3">
+                            <small class="text-muted"><i class="fas fa-clock"></i> Estimated time: ${currentQuiz.estimated_time}</small>
+                        </div>
+                    ` : ''}
+                    
+                    <h5 style="font-size: 1.2rem; margin-bottom: 1.5rem;">${question.question}</h5>
+                    
+                    <div id="quizOptions">
+                        ${question.options.map((option, index) => `
+                            <div class="quiz-option" onclick="selectQuizOption(${index})">
+                                <strong>${String.fromCharCode(65 + index)}.</strong> ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <button class="btn btn-primary mt-3" onclick="submitQuizAnswer()" disabled id="submitQuizBtn">
+                        <i class="fas fa-check"></i> Submit Answer
+                    </button>
+                </div>
+            `;
+            
+            showElement('quizResult', html);
+        }
+
+        let selectedOptionIndex = -1;
+
+        function selectQuizOption(index) {
+            // Clear previous selections
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Select current option
+            document.querySelectorAll('.quiz-option')[index].classList.add('selected');
+            selectedOptionIndex = index;
+            
+            // Enable submit button
+            document.getElementById('submitQuizBtn').disabled = false;
+        }
+
+        async function submitQuizAnswer() {
+            if (selectedOptionIndex === -1) return;
+
+            const question = currentQuiz.questions[currentQuestionIndex];
+            
+            try {
+                const response = await fetch('/check_answer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question_index: currentQuestionIndex,
+                        selected_answer: selectedOptionIndex,
+                        correct_answer: question.correct,
+                        topic: currentQuiz.topic
+                    })
+                });
+
+                const result = await response.json();
+                
+                // Show correct/incorrect feedback
+                const options = document.querySelectorAll('.quiz-option');
+                options[question.correct].classList.add('correct');
+                
+                if (!result.is_correct) {
+                    options[selectedOptionIndex].classList.add('incorrect');
+                } else {
+                    quizScore++;
+                }
+
+                // Update score display
+                const scoreElement = document.querySelector('.memory-badge.ms-2');
+                if (scoreElement) {
+                    scoreElement.textContent = `Score: ${quizScore}/${currentQuestionIndex + 1}`;
+                }
+
+                // Show explanation and next button
+                const explanationHtml = `
+                    <div class="mt-3 p-3" style="background: rgba(79, 70, 229, 0.1); border-radius: 10px;">
+                        <h6>${result.is_correct ? '✅ Correct!' : '❌ Incorrect'}</h6>
+                        <p>${question.explanation}</p>
+                        <button class="btn btn-primary" onclick="nextQuestion()">
+                            ${currentQuestionIndex + 1 >= currentQuiz.questions.length ? 'Finish Quiz' : 'Next Question'}
+                        </button>
+                    </div>
+                `;
+                
+                document.getElementById('quizResult').innerHTML += explanationHtml;
+                document.getElementById('submitQuizBtn').style.display = 'none';
+                
+            } catch (error) {
+                alert('Failed to submit answer. Please try again.');
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            selectedOptionIndex = -1;
+            displayQuizQuestion();
+        }
+
+        function displayQuizResults() {
+            const percentage = Math.round((quizScore / currentQuiz.questions.length) * 100);
+            let message = '';
+            let badgeClass = '';
+            let emoji = '';
+            
+            if (percentage >= 90) {
+                message = 'Outstanding! You\'re a master! 🌟';
+                badgeClass = 'bg-success';
+                emoji = '🏆';
+            } else if (percentage >= 80) {
+                message = 'Excellent work! 🎉';
+                badgeClass = 'bg-success';
+                emoji = '⭐';
+            } else if (percentage >= 70) {
+                message = 'Good job! Keep it up! 👍';
+                badgeClass = 'bg-info';
+                emoji = '💪';
+            } else if (percentage >= 60) {
+                message = 'Not bad! Room for improvement 📈';
+                badgeClass = 'bg-warning';
+                emoji = '📚';
+            } else {
+                message = 'Keep practicing! You\'ll get there! �';
+                badgeClass = 'bg-danger';
+                emoji = '🎯';
+            }
+            
+            const difficultyInfo = currentQuiz.difficulty_distribution ? `
+                <div class="mt-3">
+                    <h6>Quiz Difficulty Breakdown</h6>
+                    <div>
+                        ${currentQuiz.difficulty_distribution.easy > 0 ? `<span class="badge bg-success me-2">Easy: ${currentQuiz.difficulty_distribution.easy}</span>` : ''}
+                        ${currentQuiz.difficulty_distribution.medium > 0 ? `<span class="badge bg-warning me-2">Medium: ${currentQuiz.difficulty_distribution.medium}</span>` : ''}
+                        ${currentQuiz.difficulty_distribution.hard > 0 ? `<span class="badge bg-danger me-2">Hard: ${currentQuiz.difficulty_distribution.hard}</span>` : ''}
+                    </div>
+                </div>
+            ` : '';
+            
+            const html = `
+                <div class="result-card text-center">
+                    <div class="mb-4">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">${emoji}</div>
+                        <h4><i class="fas fa-trophy"></i> Quiz Complete!</h4>
+                    </div>
+                    <div class="my-4">
+                        <span class="badge ${badgeClass} p-3" style="font-size: 1.5rem;">${quizScore}/${currentQuiz.questions.length} (${percentage}%)</span>
+                    </div>
+                    <h5 style="color: var(--primary-color); margin-bottom: 2rem;">${message}</h5>
+                    
+                    ${difficultyInfo}
+                    
+                    <div class="mt-4">
+                        <button class="btn btn-primary me-3" onclick="generateQuiz()">
+                            <i class="fas fa-redo"></i> Take Another Quiz
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="getRecommendations()">
+                            <i class="fas fa-star"></i> Get Study Tips
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            showElement('quizResult', html);
+        }
+
+        // Memory and Recommendations
+        async function loadMemory() {
+            showLoading('memoryLoading');
+            hideElement('memoryResult');
+
+            try {
+                const response = await fetch('/memory');
+                const result = await response.json();
+                hideLoading('memoryLoading');
+                displayMemoryResult(result);
+            } catch (error) {
+                hideLoading('memoryLoading');
+                showError('memoryResult', 'Failed to load memory. Please try again.');
+            }
+        }
+
+        function displayMemoryResult(result) {
+            const html = `
+                <div class="result-card">
+                    <h4><i class="fas fa-brain"></i> Your Learning Progress</h4>
+                    
+                    <div class="mb-3">
+                        <h6>Overall Statistics</h6>
+                        <span class="memory-badge me-2">Total Interactions: ${result.total_interactions}</span>
+                    </div>
+                    
+                    ${Object.keys(result.topics_studied).length > 0 ? `
+                        <div class="mb-3">
+                            <h6><i class="fas fa-book"></i> Topics Studied</h6>
+                            ${Object.entries(result.topics_studied).map(([topic, count]) => 
+                                `<span class="memory-badge me-2 mb-2">${topic}: ${count}x</span>`
+                            ).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    ${Object.keys(result.quiz_performance).length > 0 ? `
+                        <div class="mb-3">
+                            <h6><i class="fas fa-chart-bar"></i> Quiz Performance</h6>
+                            ${Object.entries(result.quiz_performance).map(([topic, performance]) => {
+                                const percentage = Math.round((performance.correct / performance.total) * 100);
+                                const badgeClass = percentage >= 80 ? 'bg-success' : percentage >= 60 ? 'bg-warning' : 'bg-danger';
+                                return `<div class="mb-2">
+                                    <span class="badge ${badgeClass}">${topic}: ${performance.correct}/${performance.total} (${percentage}%)</span>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    ${result.recent_interactions.length > 0 ? `
+                        <div class="mb-3">
+                            <h6><i class="fas fa-history"></i> Recent Activity</h6>
+                            <div style="max-height: 200px; overflow-y: auto;">
+                                ${result.recent_interactions.slice(-5).reverse().map(interaction => `
+                                    <div class="mb-2 p-2" style="background: rgba(79, 70, 229, 0.05); border-radius: 8px;">
+                                        <small class="text-muted">${new Date(interaction.timestamp).toLocaleString()}</small><br>
+                                        <strong>${interaction.type}:</strong> ${interaction.content.substring(0, 60)}${interaction.content.length > 60 ? '...' : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            showElement('memoryResult', html);
+        }
+
+        async function getRecommendations() {
+            try {
+                const response = await fetch('/recommendations');
+                const result = await response.json();
+                displayRecommendations(result);
+            } catch (error) {
+                showError('recommendationsResult', 'Failed to get recommendations. Please try again.');
+            }
+        }
+
+        function displayRecommendations(result) {
+            const html = `
+                <div class="result-card mt-3">
+                    <h5><i class="fas fa-star"></i> Personalized Recommendations</h5>
+                    <ul>
+                        ${result.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            showElement('recommendationsResult', html);
+        }
+
+        // Enhanced loading with progress
+        function showLoadingWithProgress(elementId, message) {
+            const html = `
+                <div class="loading" style="display: block;">
+                    <div class="spinner"></div>
+                    <p>${message}</p>
+                    <div class="progress" style="height: 8px; margin: 1rem auto; max-width: 200px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                             style="width: 0%; background: linear-gradient(90deg, var(--primary-color), var(--accent-color));"
+                             id="progressBar"></div>
+                    </div>
+                </div>
+            `;
+            document.getElementById(elementId).innerHTML = html;
+            
+            // Simulate progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 20;
+                if (progress > 90) progress = 90;
+                const progressBar = document.getElementById('progressBar');
+                if (progressBar) {
+                    progressBar.style.width = progress + '%';
+                } else {
+                    clearInterval(interval);
+                }
+            }, 200);
+        }
+
+        // Enhanced error handling with retry options
+        function showEnhancedError(elementId, message, retryFunction = null) {
+            const html = `
+                <div class="result-card">
+                    <div class="alert alert-danger">
+                        <h5><i class="fas fa-exclamation-triangle"></i> Oops! Something went wrong</h5>
+                        <p>${message}</p>
+                        ${retryFunction ? `
+                            <button class="btn btn-outline-danger btn-sm mt-2" onclick="${retryFunction}()">
+                                <i class="fas fa-redo"></i> Try Again
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+            showElement(elementId, html);
+        }
+
+        // Add typing effect for explanations
+        function typeWriter(element, text, speed = 30) {
+            let i = 0;
+            element.innerHTML = '';
+            function typing() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typing, speed);
+                }
+            }
+            typing();
+        }
+
+        // Enhanced analytics
+        function trackUserInteraction(action, topic = '', performance = 0) {
+            const interaction = {
+                action: action,
+                topic: topic,
+                timestamp: new Date().toISOString(),
+                performance: performance,
+                userAgent: navigator.userAgent.split(' ')[0]
+            };
+            
+            // Store in localStorage for analytics
+            let analytics = JSON.parse(localStorage.getItem('studyAnalytics') || '[]');
+            analytics.push(interaction);
+            
+            // Keep only last 100 interactions
+            if (analytics.length > 100) {
+                analytics = analytics.slice(-100);
+            }
+            
+            localStorage.setItem('studyAnalytics', JSON.stringify(analytics));
+        }
+
+        // Utility Functions
+        function showLoading(elementId) {
+            document.getElementById(elementId).style.display = 'block';
+        }
+
+        function hideLoading(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+
+        function showElement(elementId, html) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = html;
+            element.style.display = 'block';
+        }
+
+        function hideElement(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+
+        function showError(elementId, message) {
+            const html = `
+                <div class="result-card">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle"></i> ${message}
+                    </div>
+                </div>
+            `;
+            showElement(elementId, html);
+        }
+
+        function getReadabilityClass(level) {
+            if (level.includes('Easy')) return 'readability-easy';
+            if (level.includes('Difficult')) return 'readability-hard';
+            return 'readability-medium';
+        }
+
+        // Load memory on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMemory();
+        });
+    </script>
+</body>
+</html>
